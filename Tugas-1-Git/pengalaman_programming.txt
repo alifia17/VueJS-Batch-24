@@ -1,0 +1,8 @@
+Assalamualaikum,
+Halo. Perkenalkan nama saya Alifia Salsabila. Pengalaman programming saya dimulai saat di masa perkuliahan. Saya kuliah di Kalbis Institute Jakarta dan mengambil program studi Sistem Informasi. Selama perkuliahan, saya mempelajari beberapa bahasa pemrograman seperti:
+- Semester 1: Di mata kuliah pengenalan algoritma pemrograman saat praktek kami mempelajari bahasa C++. 
+- Semester 2: Salah satu mata kuliah yang terdapat pemrograman ialan Introduction to web programming. Saat itu saya mempelajari bahasa pemrograman web seperti html,css,js, dan bootstrap. 
+Di semester ini ada pula matakuliah SI yang mempunyai tugas akhir berupa project untuk membuat sebuah web dan menggunakan database.
+- Semester 4: Matakuliah OOP dengan bahasa pemrograman Java. 
+- Semester 5 dan 6: Animasi dan pemrograman dengan menggunakan Actionscript
+Dan beberapa mata kuliah lainnya yang terdapat pemrograman. Namun, jujur saja setelah bertemu mata kuliah animasi dan multimedia saya kurang mendalami pemrograman dan lebih tertarik ke dunia UI/UX serta multimedia. Maka dari itu, saya berniat untuk belajar kembali di kelas FE ini. Dengan harapan setelah ini saya dapat mendalami sebuah bahasa pemrograman. Tujuan saya adalah menjadi seorang desainer UI/UX sekaligus memahami sisi Front-end. 
