@@ -24,8 +24,8 @@ console.log("SOAL 2")
 newFunction = (firstName, lastName) => {
     firstName; lastName;
     return {
-      fullName() {
-        console.log(firstName + " " + lastName)
+      fullName() {                                  //Nah disini saya ga yakin mas benar atau engga, saya tunggu pembahasan hehe. Tapi setelah beberapa kali yg ini ga error sih hehe
+        console.log(firstName + " " + lastName) 
       }
     }
     
