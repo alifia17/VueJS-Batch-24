@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Soal 2 - Tugas 9 dan 10 Pengenalan VueJS</title>
+</head>
+<body>
+    <div id="app">
+        <ul type="none">
+            <li v-for="item in listTask">
+                <br>
+                <button onclick="lihatTask()">+</button>
+                <br>
+                <td>{{ item.komentar }} || {{ item.date }} || Score: {{ item.score }}</td>
+                <br>
+                <button>-</button>
+                <br>
+            </li>
+        </ul>
+
+        <input type="text" placeholder="" v-model:value = "newTask" />
+        <button onclick="addTask">Add</button>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+    <script>
+        var vm = new Vue({
+            el: '#app', 
+            data: {
+                newTask: '',
+                listTask: [
+                    {komentar: "Komentar 1", date: "27/07/2020", score: 0},
+                    {komentar: "Komentar 2", date: "27/07/2020", score: 0},
+                    {komentar: "Komentar 3", date: "27/07/2020", score: 0},
+                ]
+            },
+            methods: {
+                addTask: function() {
+                    this.listTask.push({'komentar': this.newTask, date: "27/07/2020", score: 0});
+                    this.newTask = '';
+                    
+                },
+                lihatTask: function(number){
+                    number = number++
+                }
+            }
+        })
+    </script>
+</body>
+</html>

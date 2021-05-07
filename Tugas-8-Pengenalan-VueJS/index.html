@@ -22,13 +22,26 @@
           computed : {
             fullName : {
                 get : function(){
-                    return `${this.firstName} ${this.lastName}`
+                    return `${this.firstName} ${this.lastName}` // template script es6 pakai $
+                    //return this.firstName + ' ' + this.lastName
                 },
-                set : function (params) {
+                
+                //Pembahasan dari Mas Iqbal
+                set(param){
+                    let arr = param.trim().split(' ') //split ke array; trim u/ ada kemungkinan ada spasi di awal dan akhir cth " Abdul Haris Nasution "; split (' ') untuk split spasi
+                    let [first , ...last] = arr //kemudian buat menjadi 2 bag dgn "Destructuring" dgn membuat first dan ...last(kenapa pake titik2(separator method) karena kita ga tau nnti jumlah array blkgnya brp bisa 2, 3, 4, 5 dst)
+                    //Jd kalo di console log (first name) & console log (lastName) u/ cth " Muhammad Abdul Haris Nasution" itu dia nampilin first nya si Muhammad, lalu array belakangnya u/ last ada 3 yaitu [Abdul Haris Nasution]
+
+                    this.firstName = first //first name di assign dengan first
+                    this.lastName = last.join(' ') //var last di joinkan array nya namun di pisahkan dengan spasi (' ')
+                }
+
+                //Ini Jawaban Alif
+                /*set : function (params) { //param nya mau displit menjadi array/beberapa array
                     let arr = params.split(' ')
                     this.firstName = arr[0]
                     this.lastName = arr[1 , 2]
-                }
+                } */
                 
             }
         }

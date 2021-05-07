@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tugas 8 - Pengenalan VueJS</title>
+</head>
+<body>
+    
+    <div id="app">
+        <button onclick="vm.openform()">Open Form</button> <!-- buat sebuah button dengan handler/eventnya onclick yang kemudian pas di klik akan memanggil method openForm yang dibuat dibawah -->
+        <h1>{{ 'Nilai a : ' + a}}</h1>
+        <h1>{{ 'Rata rata : ' + rata_rata }}</h1>
+      </div>
+      
+      <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+      <script>
+       var vm = new Vue({
+          el: '#app',
+          data: { // membuat objek data dan ada 2 yaitu data a dan rata2 yang dipanggil&ditampilkan hasilnya di html atas
+            a : 0, //Inisiasi data "a"
+            rata_rata : 0
+          },
+          methods : {
+            openform : function () {
+                var count = 0
+                while (this.a < 10) { //ketika a kurang dari 10 maka,
+                    this.a = this.a + parseInt(prompt('Masukkan nilai a ')) //this a nya di assign dengan this a ditambah prompt masukkan nilai a; Kemudian promptnya di parseInt karena si prompt pasti hasilnya string dan harus diubah ke integer
+                    count++
+                }
+
+                this.rata_rata = this.a / count
+                }
+            }
+           
+           
+                        
+        
+      })
+      </script>
+</body>
+</html>
