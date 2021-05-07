@@ -8,8 +8,9 @@
 </head>
 <body>
     <div id="app">
-        <button onclick="vm.openform()">Open Form</button>
+        <button v-for onclick="vm.openform()">Open Form</button>
         <h1>{{ 'Nilai a :' + a}}</h1>
+        <h1>{{ 'Total a:' + totalA() }}</h1>
       </div>
       
       <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
@@ -18,20 +19,60 @@
           el: '#app',
           data: {
             a : 0, //Inisiasi data "a"
+            newA: ""
           },
           methods : {
-              openform : function () {
-                  get : function getform() {
-                    let.a = prompt("Masukkan nilai a")
-                    return a
-                  }
-                  set : function getform(params) {
-                      this. a = a;
-                      
-                  }
-                  
-              }
-          }
+            openform : function () {
+                this.a = prompt("Masukkan nilai a")
+                this.newA = "";
+                },
+           
+           // Assalamualaikum mas Iqbal. Sebelumnya saya minta maaf lagi karena challenge hariannya gagal lagi
+           //saya juga mau sedikit curhat mas, untuk tiap challenge yang baru2 ini.
+           /* saya sudah mencoba seharian tapi masih gagal, saya rasa memang saya harus lebih bekerja keras untuk
+           mempelajari js nya khususnya melatih logic programming saya. Teori nya sepertinya saya sudah tau apa
+           yang harus saya lakukan. Seperti di contoh soal ini teorinya saya sudah dapat tapi praktek penulisan
+           scriptnya saya masih belum berhasil. Pemikiran saya di soal ini " saya membutuhkan sesuatu yang dapat
+           menampung variabel dari inputan a yang baru. Misalkan dibuat array tiap inputannya. Terus nnti ada sebuah
+           fungsi yang dibuat untuk mentotalkan isi dari array tsb dulu > sembari di cek kondisi total array tsb
+           sudah 10 atau blm? kl belum panggil si promptnya terus kl sdh 10 maka prompt tidak dipanggil lagi"
+           menurut saya yang harus digunakan ada directives v dan menggunakan v-if/callback/atau mungkin menggunakan get set juga. 
+           Tapi saya benar benar
+           bingung untuk menulisnya" Mohon bantuannya nanti dipembahasan ya mas. Terima kasih banyak mas Iqbal
+            Tapi setelah ini dikumpulkan saya tetap mencoba mas, kalau belum berhasil nnti saya tanya saat live session ya mas
+            atau menunggu pembahasan. Terima kasih  /*
+            totalA(){
+                get : function getnewA() {
+                    return this.a = newA
+                },
+                set : function getnewA(params) {
+                    
+                }
+                return this.a + newA
+            },
+           
+            /* openform : function () {
+                this.a = prompt("Masukkan nilai a")
+                },
+            
+            totalA(){
+                return this.a + a
+            } */
+
+                /*openform : function () {
+                    if (a <= 10) {
+                        this.a = prompt("Masukkan nilai a")
+                    }
+                } */
+
+               
+            }
+                
+           /* openform : function () {
+                this.a = prompt("Masukkan nilai a")
+                } */
+                        
+        
       })
       </script>
 </body>
