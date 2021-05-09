@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz 2 - Bismillah </title>
+</head>
+<body>
+    <div id = "app">
+        <form @submit.prevent = "tambahUser()">
+            <input type="text" v-model:value="newUser">
+            <input type="submit" v-model:value="keteranganBtn">
+        </form>
+
+        <ul>
+            <li v-for="item in users">
+                <td>{{ item.name }} <button @click="editUser(item.name)">Edit</button> || <button @click="deleteUser(item.name)">Delete</button></td>
+                <br>
+                <br>
+            </li>
+        </ul>
+
+        
+    </div>
+
+    <script src = "https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+    <script>
+        var vm = new Vue({
+            el: '#app',
+            data: {
+                keteranganBtn: 'add',
+                newUser: "",
+                edit: "",
+                users: [
+                    {'name' : 'Muhammad Iqbal Mubarok'},
+                    {'name' : 'Faqih Muhammad'},
+                    {'name' : 'Ruby Purwanti'}
+
+                ]
+            },
+            methods: {
+                tambahUser: function () {
+                    this.users.push({'name' : this.newUser})
+                    this.newUser = ""
+                    this.keteranganBtn = 'add'
+                },
+                editUser : function (name) {
+                    /*if (this.users.name == this.edit) {
+                        i+=0
+                    } ---> Saya coba pakai ini buat yang setelah edit biar ga nambah jadi data baru, belum bisa juga mass, jadi saya kumpulkan sebisanya ya mas. Terima kasih*/ 
+                    this.newUser = name
+                    this.edit = name
+                    this.keteranganBtn = 'Edit'
+                },
+                deleteUser : function (array) { //maaf mas Iqbal saya belum berhasil di hapus array nya. 
+                    alert('Anda yakin? ')
+                }
+            }
+        })
+    </script>
+    
+</body>
+</html>
