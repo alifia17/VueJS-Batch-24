@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tugas 12 Berlatih CRUD dengan Axios</title>
+</head>
+<body>
+    <div id="app">
+        <form @submit.prevent="submitForm()" >
+            <p v-if="errors.length">
+                <b>Please correct the following errors :</b>
+                <ul>
+                    <li v-for="error in errors">{{ error }}</li>
+                </ul>
+            </p>
+            <label>Name : </label> <br>
+            <input type="text" :disabled="buttonStatus == 'upload'" name="name" ref="name" v-model="name"> <br>
+            <label>Address : </label> <br>
+            <textarea name="address" :disabled="buttonStatus == 'upload'" ref="address" v-model="address"></textarea> <br>
+            <label>No_Hp : </label> <br>
+            <input type="text" :disabled="buttonStatus == 'upload'" name="no_hp" ref="no_hp" v-model="no_hp"> <br>
+           
+            <div v-if="buttonStatus == 'submit'">
+                <input type="submit" value="SUBMIT">
+            </div>
+            <div v-else-if="buttonStatus == 'update'">
+                <input type="button" @click="updateMember(idEditMember)" value="UDPATE"> <br>
+                <input type="button" value="CANCEL" @click="clearForm" style="margin-top: 5px">
+            </div>
+            <div v-else-if="buttonStatus == 'upload'">
+                <input type="file" name="photo" ref="photo"> <br>
+                <input type="button" value="UPLOAD" @click="submitPhoto(idUploadMember)" style="margin-top: 5px"> <br>
+                <input type="button" value="CANCEL" @click="clearForm" style="margin-top: 5px">
+            </div>
+            
+        </form>
+
+        <br><br>
+
+        <table border="1">
+            <tr v-for="member of members">
+                <td>
+                    <img width=100 :src="member.photo_profile ? photoDomain + member.photo_profile : 'https://dummyimage.com/16:9x1080'" alt="">
+                </td>
+            <td>
+                <b>Name : </b> {{ member.name }} <br>
+                <b>Address : </b> {{ member.address }} <br>
+                <b>No_hp : </b> {{ member.no_hp }} <br>
+            </td>
+            <td>
+                <button @click="editMember(member)">Edit</button>
+                <button @click="removeMember(member.id)">Hapus</button>
+                <button @click="uploadPhoto(member)">Upload Foto</button>
+            </td>
+        </tr>
+        </table>
+
+    </div>
+
+<script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+<script>
+    var vm = new Vue({
+        el: '#app',
+        data: {
+            name : '',
+            address : '',
+            no_hp: '',
+            errors : [],
+            members : [],
+            photoDomain : 'http://demo-api-vue.sanbercloud.com',
+            buttonStatus : 'submit', //button status defaultnya submit
+            idEditMember : null,
+            idUploadMember : null
+        },
+        methods: {
+            validationForm : function() {
+                this.errors = []
+
+                if (this.name.length === 0) {
+                    this.errors.push('Nama tidak boleh kosong!')
+                    this.$refs.name.focus()
+                }
+
+                if (this.address.length > 50) {
+                    this.errors.push('Alamat tidak boleh lebih dari 50 karakter!')
+                    this.$refs.address.focus()
+                }
+            },
+
+            submitForm : function() {
+
+                this.validationForm()
+
+                if (this.errors.length === 0) {
+
+                    let formData = new FormData()
+                    formData.append('name' , this.name)
+                    formData.append('address' , this.address)
+                    formData.append('no_hp' , this.no_hp)
+
+                 const config = {
+                    method : "post",
+                    url : "http://demo-api-vue.sanbercloud.com/api/member",
+                    data : formData
+                 }
+
+                 axios(config) 
+                    .then( (response) => { 
+                         this.clearForm()
+                         this.getMembers()
+                         alert(response.data.message)
+                    })
+                    .catch( (error) => {
+                        
+                    })
+
+
+                    
+                }
+            },
+
+            getMembers : function() {
+                /* cara yang lebih rapih untuk get request axios kita buat variabel */
+                const config = {
+                    method : "get", //disesuaikan dengan API, karena yg mau dipake url nya yg Get maka method nya get
+                    url : "http://demo-api-vue.sanbercloud.com/api/member"
+                }
+
+                axios(config) 
+                  .then( (response) => { //pake format ES6
+                    this.members = response.data.members //dari array kosong di data terus di response dengan ngambil data dari API
+                  })
+                  .catch( (error) => {
+                    console.log(error)
+                  })
+
+                
+                /* cara get req dari dokumentasi si axiosnya, nah kita mau buat yang lebih rapih caranya yg diatas
+                axios.get('/user?ID=12345')
+                    .then(function (response) {
+                        // handle success
+                        console.log(response);
+                    })
+                    .catch(function (error) {
+                        // handle error
+                        console.log(error);
+                    })    */
+            },
+
+            //Delete Member
+            removeMember : function (id) {
+                
+                const config = {
+                    method : "post",
+                    url : `http://demo-api-vue.sanbercloud.com/api/member/${id}`,
+                    params : { _method : "DELETE"}
+                }
+                
+                axios(config)
+                  .then( (response) => {
+                    this.getMembers()
+                    alert(response.data.message)
+                  })
+                  .catch( (error) => {
+                    console.log(error);
+                  })
+                console.log(id)
+            },
+
+            //Edit Member
+            editMember : function(member) {
+                this.name = member.name
+                this.address = member.address
+                this.no_hp = member.no_hp
+                this.buttonStatus = 'update'
+                this.idEditMember = member.id // di console log ketik "vm.idEditMember" nnti keluar id si member yang dipanggil untuk diedit ini
+                //console.log(member) //dibuat pertama kali pas fungsi dibuat untuk lihat si fungsi ini berjalan ga? cara nya console terus di klik tombol edit>di tab console nnti ada fungsinya kepanggil kl sudah berhasil
+            },
+
+            //Clear Form
+            clearForm : function() {
+                this.name = ''
+                this.address = ''
+                this.no_hp = ''
+                this.buttonStatus = 'submit'
+                this.idEditMember = null //dibuat karena pas tombol cancel di klik id member yang tadi di klik masih nyangkut jadi dibuat null kembali
+                this.idUploadMember = null
+            
+            },
+
+            //Update Member
+            updateMember : function(id) {
+                
+                this.validationForm()
+                if( this.errors.length === 0){
+
+                    let formData = new FormData()
+                    formData.append('name', this.name)
+                    formData.append('address' , this.address)
+                    formData.append('no_hp' , this.no_hp)
+
+                    let config = {
+                        method : "post",
+                        url : `http://demo-api-vue.sanbercloud.com/api/member/${id}`,
+                        params : {_method : 'PUT'},
+                        data : formData
+                    }
+
+                    axios(config)
+                        .then( (response) => {
+                            this.clearForm()
+                            this.getMembers()
+
+                            alert(response.data.message)
+
+                        })
+                        .catch( (error) => {
+                            console.log(error)
+
+                        })
+                }
+            },
+
+            //Upload foto
+            uploadPhoto : function(member) {
+                this.name = member.name
+                this.address = member.address
+                this.no_hp = member.no_hp
+                this.buttonStatus = 'upload'
+                this.idUploadMember = member.id
+            },
+
+            //Submit foto yang mau di upload
+            submitPhoto : function(id){
+                
+                let file = this.$refs.photo.files[0] //"photo" sesuai ref yang dibuat tag html diatas
+
+                let formData = new FormData()
+                formData.append('photo_profile' , file) //"photo_profile" sesuai di bodyform data API nya
+
+                let config = {    //Sesuai kan dengan API method nya, ada headers/ga, url, dan body nya
+                    method : "post",
+                    url : `http://demo-api-vue.sanbercloud.com/api/member/${id}/upload-photo-profile`,
+                    data : formData //di API body nya pake formData
+                }
+
+                axios(config)
+                    .then( (response) => {
+
+                        this.clearForm()
+                        this.getMembers()
+
+                        alert(response.data.message)
+
+                    })
+                    .catch( (error) => {
+                        console.log(error)
+                    })
+
+            }
+
+            
+
+        }, //tutup kurung si methods
+        created(){
+           this.getMembers()
+        }
+    })
+</script>
+    
+</body>
+</html>
