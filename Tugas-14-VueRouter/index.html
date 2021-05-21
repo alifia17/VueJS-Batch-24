@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tugas 14 Berlatih Vue Router</title>
+</head>
+<body>
+    <div id="app">
+        <h1>Belajar Vue Router Bareng Sanbercode</h1>
+
+         <!-- Pengganti tag <a href=""></a>  -->
+        <router-link to="/">Page 1</router-link>
+        <router-link to="/halaman2">Page 2</router-link>
+        <router-link to="/halaman3">Page 3</router-link>        
+        <hr>
+
+        <!-- Untuk Menampilkan component secara dinamis , sesuai dengan route yang diakses -->
+        <router-view></router-view>
+    </div>
+
+<script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+<script src="https://unpkg.com/vue-router/dist/vue-router.js"></script>
+
+<script type="module">
+    // Kita membuat 3 component , yaitu Halaman 1 sampai dengan 3
+    const halaman1 = { template: '<div>Ini Halaman 1 hehe</div>' }
+    const halaman2 = { template: '<div>Ini Halaman 2 hehe</div>' }
+    const halaman3 = { template: '<div>Ini Halaman 3 hehe</div>' }
+    
+    // Buat variabel auth dan admin buat nanti di pengecekan
+    let auth = true /* karena ini masih latihan di lokal boleh pake true/false bebas (coba cek kl di false in) */
+    let admin = false /* Pasti nanti berhasil masuk ke halaman page 3 tapi ada alert maaf anda bukan admin; kl di true in juga pasti langsung berhasil masuk */
+
+    // Kemudian kita arahkan setiap route ke component yang kita inginkan
+    const routes = [
+    { path: '/', component: halaman1 }, /* mengarah ke halaman 1 berdassarkan component yg kita buat diatas */
+    { path: '/halaman2', component: halaman2, meta: { login: true } },
+    { path: '/halaman3', component: halaman3, meta: { loginadmin: true } },
+    { path: '*', redirect: '/' }
+    ]
+
+    //Kemudian kita instansiasi object Vue Router dan tambahkan routes yang sudah kita buat tadi
+    const router = new VueRouter({
+    routes 
+    })
+
+    //Membuat global before guards kondisi satu untuk halaman 2 aja perlu login
+    router.beforeEach((to, from, next) => {
+        if(to.matched.some(record => record.meta.login)){
+            if (!auth) {
+                next(false)
+                alert('Maaf, Silahkan Login Terlebih Dahulu')
+            }else{
+                next()
+                alert("Berhasil Masuk")
+            }  
+        }else{
+            next()
+        }
+    })
+
+    //Membuat global before guards kondisi satu untuk halaman 3 perlu login dan harus admin
+    router.beforeEach((to, from, next) => {
+        if(to.matched.some(record => record.meta.loginadmin)){
+            if (!auth) {
+                next(false)
+                alert('Maaf, Silahkan Login Terlebih Dahulu')
+            }else{
+                if (!admin) {
+                    next(false)
+                    alert('Maaf, Anda Bukan Admin')
+                }else{
+                    next()
+                    alert("Berhasil Masuk Sebagai Admin")
+                }           
+            }  
+        }else{
+            next()
+        }
+    })
+
+
+    //Kemudian kita tambahkan object VueRouter yang kita namakan router ke object Vue
+    var vm = new Vue({
+        el: '#app',
+        router,
+    })
+</script>
+    
+</body>
+</html>
