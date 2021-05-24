@@ -8,7 +8,7 @@
 </head>
 <body>
     <div id="app">
-        <form @submit.prevent="submitForm($event)" > //tadinya ga pakai event cuma ()
+        <form @submit.prevent="submitForm($event)" > <!--tadinya ga pakai event cuma ()-->
             <p v-if="errors.length">
                 <b>Please correct the following errors :</b>
                 <ul>
@@ -42,15 +42,15 @@
         <member-component 
             v-for="member in members"
             :member="member"
-            @edit="editMember(member) = $event"
-            @delete="removeMember(member.id) = $event"
-            @upload="uploadPhoto(member) = $event"
+            @edit="editMember($event)" 
+            @delete="removeMember"
+            @upload="uploadPhoto"
         
         >
             
 
         </member-component>
-
+        <!-- Bisa juga ditulisnya editMember($event) yg didalam kurung itu untuk manggil data membernya-->
         
 
     </div>
